@@ -1,12 +1,42 @@
 version: '3.9'
+
 services:
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: todo
+      context: ./todo
+      dockerfile: ../Dockerfile.frontend
+    container_name: todo-frontend
     working_dir: /app
     volumes:
       - ./todo:/app
     ports:
       - "5173:5173"
+    command: ["npm", "run", "dev", "--", "--host"]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../Dockerfile.backend
+    container_name: todo-backend
+    working_dir: /var/www/backend
+    volumes:
+      - ./backend:/var/www/backend
+    ports:
+      - "8000:8000"
+    # command: ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=8000"]
+
+  db:
+    image: mysql:5.7
+    container_name: todo-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
