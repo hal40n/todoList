@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Todo;
+use App\Repositories\TodoRepository;
+use App\Repositories\TodoRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(TodoRepositoryInterface::class, TodoRepository::class);
     }
 
     /**
