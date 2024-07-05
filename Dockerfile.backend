@@ -4,6 +4,8 @@ FROM php:8.1-fpm-alpine
 COPY --from=composer:2.3 /usr/bin/composer /usr/bin/composer
 
 RUN apk add --no-cache \
+    nodejs \
+    npm \
     git \
     bash \
     icu-dev \
