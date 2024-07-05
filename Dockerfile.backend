@@ -11,7 +11,9 @@ RUN apk add --no-cache \
     oniguruma-dev \
     zip \
     unzip \
-    mysql-client
+    mysql-client \
+    mariadb-connector-c-dev \
+    && docker-php-ext-install pdo_mysql
 
 WORKDIR /var/www/backend
 
