@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\TodoService;
+use App\Http\Requests\StoreTodoRequest;
+use App\Http\Requests\UpdateTodoRequest;
 use Illuminate\Http\Request;
 
 
@@ -35,9 +37,9 @@ class TodoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTodoRequest $request)
     {
-        //
+        $request = $this->todoService->create($request->validated());
     }
 
     /**
@@ -45,7 +47,7 @@ class TodoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return $this->todoService->getId($id);
     }
 
     /**
@@ -59,9 +61,10 @@ class TodoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTodoRequest $request, string $id)
     {
-        //
+        $todo = $this->todoService->getId($id);
+        return $this->todoService->update($todo, $request->validated());
     }
 
     /**
@@ -69,6 +72,8 @@ class TodoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $todo = $this->todoService->getId($id);
+        $this->todoService->delete($todo);
+        return response()->json(['message' => 'Todo deleted successfully']);
     }
 }
