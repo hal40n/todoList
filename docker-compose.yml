@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todo
+    working_dir: /app
+    volumes:
+      - ./todo:/app
+    ports:
+      - "5173:5173"
